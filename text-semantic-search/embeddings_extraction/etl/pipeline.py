@@ -29,23 +29,20 @@ encoder = None
 
 def get_source_query(limit=1000000):
   query = """
-    SELECT
+  SELECT
       GENERATE_UUID() as id,
       text
     FROM
     (
-        SELECT
-          DISTINCT LOWER(title) text
-        FROM
-          `bigquery-samples.wikipedia_benchmark.Wiki100B`
+       SELECT title as text 
+       
+       FROM `bigquery-public-data.samples.wikipedia` 
+      
         WHERE
           ARRAY_LENGTH(split(title,' ')) >= 5
-        AND
-          language = 'en'
-        AND
-          LENGTH(title) < 500
+
+      LIMIT {0}
      )
-    LIMIT {0}
   """.format(limit)
   return query
 

@@ -25,18 +25,33 @@ VECTOR_LENGTH = 512
 class MatchingUtil:
 
   def __init__(self, index_file):
-    logging.info('Initialising matching utility...')
+    print('Initialising matching utility...')
     self.index = AnnoyIndex(VECTOR_LENGTH)
     self.index.load(index_file, prefault=True)
-    logging.info('Annoy index {} is loaded'.format(index_file))
+    print('Annoy index {} is loaded'.format(index_file))
     with open(index_file + '.mapping', 'rb') as handle:
       self.mapping = pickle.load(handle)
-    logging.info('Mapping file {} is loaded'.format(index_file + '.mapping'))
-    logging.info('Matching utility initialised.')
+    print('Mapping file {} is loaded'.format(index_file + '.mapping'))
+    print('Matching utility initialised.')
 
   def find_similar_items(self, vector, num_matches):
     item_ids = self.index.get_nns_by_vector(
       vector, num_matches, search_k=-1, include_distances=False)
+    print("MATCHING -1", item_ids)
+    
+    print("MATCHING 10",self.index.get_nns_by_vector(
+      vector, num_matches, search_k=10, include_distances=False) )
+
+    print("MATCHING 100",self.index.get_nns_by_vector(
+      vector, num_matches, search_k=100, include_distances=False) )
+
+    print("MATCHING 1000",self.index.get_nns_by_vector(
+          vector, num_matches, search_k=1000, include_distances=False) )
+
+    print("MATCHING 10000",self.index.get_nns_by_vector(
+              vector, num_matches, search_k=10000, include_distances=False) )
+
+
     identifiers = [self.mapping[item_id]
                    for item_id in item_ids]
     return identifiers

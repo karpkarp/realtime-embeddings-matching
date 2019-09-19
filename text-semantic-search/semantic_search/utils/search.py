@@ -18,13 +18,15 @@ import embedding
 import matching
 import lookup
 import os
-import logging
+import semantic_search
 import googleapiclient
+import googleapiclient.discovery
+
 from httplib2 import Http
 from oauth2client.client import GoogleCredentials
 
 # Configurable parameters
-GCS_BUCKET = ''
+GCS_BUCKET = 'wikipedia-testing'
 KIND = 'wikipedia'
 GCS_INDEX_LOCATION = '{}/index/embeds.index'.format(KIND)
 INDEX_FILE = 'embeds.index'
@@ -91,7 +93,9 @@ class SearchUtil:
 
   def search(self, query, num_matches=10):
     query_embedding = self.embed_util.extract_embeddings(query)
+    print("QUERY EMBEDDED", query, query_embedding)
     item_ids = self.match_util.find_similar_items(query_embedding, num_matches)
+    print("ITEM IDS", item_ids)
     items = self.datastore_util.get_items(item_ids)
     return items
 

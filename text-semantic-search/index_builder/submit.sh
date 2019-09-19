@@ -15,9 +15,9 @@
 # limitations under the License.
 
 # Configurable parameters
-PROJECT=""
-BUCKET=""
-REGION=""
+PROJECT="ashoppingapp"
+BUCKET="wikipedia-testing"
+REGION="us-central1"
 
 # Datastore parameters
 KIND="wikipedia"
@@ -55,6 +55,7 @@ gcloud ml-engine jobs submit training "${JOB_NAME}" \
         --scale-tier="${TIER}" \
         --module-name=builder.task \
         --package-path="${PACKAGE_PATH}"  \
+        --master-machine-type complex_model_m \
         --config=config.yaml \
         -- \
         --embedding-files="${EMBED_FILES}" \

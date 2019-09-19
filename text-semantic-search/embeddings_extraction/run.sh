@@ -15,12 +15,12 @@
 # limitations under the License.
 
 # Configurable parameters
-PROJECT=""
-BUCKET=""
-REGION=""
+PROJECT="ashoppingapp"
+BUCKET="gs://wikipedia-testing"
+REGION="us-central1"
 
 # BigQuery parameters
-LIMIT=1000000
+LIMIT=100
 
 # Datastore parameters
 KIND="wikipedia"
